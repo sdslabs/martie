@@ -67,9 +67,16 @@ app.use(express.static(path.join(__dirname,'./public')));
 app.get('/party/:partyName', function(req, res){
   var isAdmin = (req.session.admin==true);
   //This is THE party page
-  var partyName = req.params.partyName;
-  r.lrange("tracks:"+partyName, 0, -1, function(err, tracks){
-    res.render("party",{tracks: tracks, admin: isAdmin});
+  r.get("party:"+req.params.partyName, function(err,name){
+    var urlname = req.params.partyName;
+    r.lrange("tracks:"+urlname, 0, -1, function(err, tracks){
+      res.render("party",{
+        tracks: tracks, 
+        admin: isAdmin,
+        name: name, 
+        urlname: req.params.partyName
+      });
+    });
   });
 });
 
