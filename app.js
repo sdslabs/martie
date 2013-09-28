@@ -78,7 +78,7 @@ app.post('/party/create', function(req,res){
   var partyNameSanitized = partyName.replace(/\W/g,'-');
   req.session.admin=true;
   r.set("party:"+partyNameSanitized, partyName);
-  res.redirect('/party/create'+partyNameSanitized);
+  res.redirect('/party/create/'+partyNameSanitized);
 });
 
 app.get("/party/create/:partyName", function(req, res){
