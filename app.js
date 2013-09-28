@@ -30,32 +30,48 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+//Removed authentication from the app 
+//Coz it required re-creating sessions
 app.post('/party/:party/add', function(req, res){
   var trackId = req.body.trackId;
-  if(req.session.admin){
+  var party = req.params.party;
+  var title = req.body.title;
+  r.rpush("tracks:"+party, trackId+"|"+title);
+  res.json("Added track to main list");
+});
 
-  }
-  else{
-    res.json("You are not admin");
-  }
-})
+app.del('/party/:party/:trackId',function(req, res){
+  var trackId = req.params.trackId;
+  var title = req.body.title;
+  var party = req.params.party;
+  r.lrem("tracks:"+party, trackId+""+title)
+});
 
 app.post('/party/:party/suggest', function(req, res){
   var trackId = req.body.trackId;
-  var patyName = req.params.party
-  r.zadd("suggests:"+partyName, 1, trackId);
+  var partyName = req.params.party;
+  var title = req.body.title;
+  r.zadd("suggests:"+partyName, 1, trackId+"|"+title);
 });
 
 app.post('/party/:party/upvote', function(req, res){
   var trackId = req.body.trackId;
   var patyName = req.params.party
   r.zincrby("suggests:"+partyName, 1, trackId);
-})
+});
 
 /** This is the most important endpoint */
 app.get('/party/:partyName.json', function(req, res){
-  var result = r.get("party:"+req.params.partyName, function(err, response){
-    res.json({name: response});
+  var partyName = req.params.partyName
+  var result = r.get("party:"+partyName, function(err, response){
+    //Now get the track list
+    r.lrange("tracks:"+partyName, 0, -1, function(err, tracks){
+      res.json({
+        tracks: tracks,
+        name: response
+      });
+    });
+    
   });
 })
 app.use(express.static(path.join(__dirname,'./public')));
@@ -91,18 +107,14 @@ app.get("/party/create/:partyName", function(req, res){
 });
 
 app.get('/search', function(req, res){
-  console.log("You searched for "+req.query.query);
   var q = req.query.query;
   yt.search(q, function(YTresponse){
-    //Now lets try gaana
     gaana.search(q, function(Gresponse){
-      console.log(Gresponse);
       res.json({
         gaana: Gresponse,
         youtube: YTresponse
       });
     });
-    
   })
 });
 
