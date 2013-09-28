@@ -47,6 +47,7 @@ $(document).ready(function()
       </li>';
 
       $('#queue').append(html);
+      $('#add-button').removeAttr('disabled')
     },
 
     removeFromQueue: function(el)

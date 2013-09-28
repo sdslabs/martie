@@ -163,6 +163,9 @@ input {
   float: right;
   color: #555;
 }
+#right-sidebar #add-button {
+  margin-top: 20px;
+}
 #right-sidebar h2 {
   color: #000;
   font-size: 15px;
