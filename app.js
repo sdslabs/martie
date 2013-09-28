@@ -26,7 +26,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', function(req, res){
-	res.send("Hello Music!");
+	res.sendfile(__dirname + '/public/');
 });
 
 http.createServer(app).listen(app.get('port'), function(){
