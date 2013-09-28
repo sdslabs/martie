@@ -30,10 +30,12 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.post('/party/:party/add', function(){
+app.post('/party/:party/add', function(req, res){
   var trackId = req.body.trackId;
+  var party = req.params.party;
   if(req.session.admin){
-
+    r.rpush("tracks:"+party, trackId);
+    res.json("Added track to main list");
   }
   else{
     res.json("You are not admin");
@@ -91,18 +93,14 @@ app.get("/party/create/:partyName", function(req, res){
 });
 
 app.get('/search', function(req, res){
-  console.log("You searched for "+req.query.query);
   var q = req.query.query;
   yt.search(q, function(YTresponse){
-    //Now lets try gaana
     gaana.search(q, function(Gresponse){
-      console.log(Gresponse);
       res.json({
         gaana: Gresponse,
         youtube: YTresponse
       });
     });
-    
   })
 });
 
