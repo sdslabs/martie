@@ -1,3 +1,77 @@
+@font-face
+  font-family 'Oxygen'
+  font-style normal
+  font-weight 300
+  src local('Oxygen Light'), local('Oxygen-Light'), url('/fonts/oxygen-light.woff') format('woff')
+
+@font-face
+  font-family 'Oxygen'
+  font-style normal
+  font-weight 400
+  src local('Oxygen'), local('Oxygen-Regular'), url('/fonts/oxygen.woff') format('woff')
+
+@font-face
+  font-family 'Oxygen'
+  font-style normal
+  font-weight 700
+  src local('Oxygen Bold'), local('Oxygen-Bold'), url('/fonts/oxygen-bold.woff') format('woff')
+
 *
-	border 0
-	padding 0
+  border 0
+  padding 0
+  font-family 'Oxygen'
+
+body
+  overflow-y hidden
+
+
+.content
+  width 60%
+  margin auto
+  border 1px solid #EEE
+  height 1000px
+  -webkit-box-shadow 0px 2px 5px rgba(0, 0, 0, 0.1)
+  -moz-box-shadow 0px 2px 5px rgba(0, 0, 0, 0.1)
+  box-shadow 0px 2px 5px rgba(0, 0, 0, 0.1)
+
+#navbar
+  height 80px
+  border-bottom 1px solid #EEE
+  a
+    &:hover
+      background transparent
+      color #555
+
+#topbar-logo-div
+  padding 10px 50px 10px 30px
+  font-size 30px
+  font-weight 100
+  border-right 1px solid #EEE
+  #logo-image
+    height 25px
+    margin-right 5px
+
+#topbar-url
+  color black
+  font-weight bold
+  margin-left 50px
+
+#header
+  width 100%
+  
+#header
+  width 100%
+  height 200px
+  background url('/images/header4.jpg') no-repeat
+  background-size cover
+  background-position center
+  color white
+
+#party-name
+  padding-top 40px
+  font-size 25px
+
+.header-text
+  margin-left 270px
+  font-weight 100
+  padding-top 10px
