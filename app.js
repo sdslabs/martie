@@ -30,34 +30,41 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+//Removed authentication from the app 
+//Coz it required re-creating sessions
 app.post('/party/:party/add', function(req, res){
   var trackId = req.body.trackId;
   var party = req.params.party;
-  if(req.session.admin){
-    r.rpush("tracks:"+party, trackId);
-    res.json("Added track to main list");
-  }
-  else{
-    res.json("You are not admin");
-  }
+  var title = req.body.title;
+  r.rpush("tracks:"+party, trackId+"|"+title);
+  res.json("Added track to main list");
 })
 
 app.post('/party/:party/suggest', function(req, res){
   var trackId = req.body.trackId;
-  var patyName = req.params.party
-  r.zadd("suggests:"+partyName, 1, trackId);
+  var partyName = req.params.party;
+  var title = req.body.title;
+  r.zadd("suggests:"+partyName, 1, trackId+"|"+title);
 });
 
 app.post('/party/:party/upvote', function(req, res){
   var trackId = req.body.trackId;
   var patyName = req.params.party
   r.zincrby("suggests:"+partyName, 1, trackId);
-})
+});
 
 /** This is the most important endpoint */
 app.get('/party/:partyName.json', function(req, res){
-  var result = r.get("party:"+req.params.partyName, function(err, response){
-    res.json({name: response});
+  var partyName = req.params.partyName
+  var result = r.get("party:"+partyName, function(err, response){
+    //Now get the track list
+    r.lrange("tracks:"+partyName, 0, -1, function(err, tracks){
+      res.json({
+        tracks: tracks,
+        name: response
+      });
+    });
+    
   });
 })
 app.use(express.static(path.join(__dirname,'./public')));
