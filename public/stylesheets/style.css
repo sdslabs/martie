@@ -123,13 +123,14 @@ input {
   width: 73%;
 }
 #main ul {
+  opacity: 0;
   margin: 45px 0 0 45px;
   padding: 0;
 }
 #main ul li.track-div {
   opacity: 0.8;
   cursor: pointer;
-  min-height: 200px;
+  height: 180px;
   width: 18%;
   list-style: none;
   display: inline-block;
@@ -140,9 +141,10 @@ input {
 #main ul li.track-div .artwork {
   height: 7.5em;
   width: 7.5em;
-  background: url("/images/album.jpg");
-  background-position: center;
-  background-size: cover;
+}
+#main ul li.track-div .artwork img {
+  max-width: 7.5em;
+  max-height: 7.5em;
 }
 #main ul li.track-div .song-meta {
   font-size: 12px;

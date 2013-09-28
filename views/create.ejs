@@ -32,7 +32,7 @@
       <div class="pure-u-3-5" id="main">
         <ul id="artwork-grid">
           <li class="track-div">
-            <div class="artwork"></div>
+            <div class="artwork"><img src="/images/album.jpg" alt=""></div>
             <span class="song-meta">
               <span class="name">Rolling in the Deep</span><br>
               <span class="artist">Adele</span>
@@ -57,21 +57,6 @@
     <script src="/javascripts/jquery.min.js"></script>
     <script src="/javascripts/imagesLoaded.min.js"></script>
     <script src="/javascripts/masonry.min.js"></script>
-    <script>
-      $container = $('#artwork-grid');
-      initialize = function() {
-        $container.masonry({
-          columnWidth: 150,
-          itemSelector: '.track-div'
-        });
-        $container.animate({
-          opacity: 1
-        }, 200);
-      };
-
-      $container.imagesLoaded(function() {
-        initialize()
-      })
-    </script>
+    <script src="/javascripts/main.js"></script>
   </body>
 </html>

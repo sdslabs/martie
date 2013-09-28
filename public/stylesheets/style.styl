@@ -113,6 +113,7 @@ input
   min-height 600px
   width 73%
   ul
+    opacity 0
     margin 45px 0 0 45px
     padding 0
     li.track-div
@@ -120,16 +121,16 @@ input
       cursor pointer
       &:hover
         opacity 1
-      min-height 200px
+      height 180px
       width 18%
       list-style none
       display inline-block
       .artwork
         height 7.5em
         width 7.5em
-        background url('/images/album.jpg')
-        background-position center
-        background-size cover
+        img
+          max-width 7.5em
+          max-height 7.5em
       .song-meta
         font-size 12px
         color #555
