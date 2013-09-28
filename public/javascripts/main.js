@@ -11,14 +11,16 @@ $(document).ready(function()
       var html = '';
       for (i in data.youtube)
       {
-        var id = (data.youtube[i].id.videoId !== undefined) ? data.youtube[i].id.videoId : data.youtube[i].id.channelId;
-        html += '<li class="track-div" data-id="' + id + '" data-title="' + data.youtube[i].snippet.title + '" data-artist="">\
-          <div class="artwork"><img src="' + data.youtube[i].snippet.thumbnails.high.url + '"></div>\
-          <span class="song-meta">\
-            <span class="name">' + data.youtube[i].snippet.title.substring(0,20) + '</span><br>\
-            <span class="artist"></span>\
-          </span>\
-        </li>';
+        if (data.youtube[i].id.videoId !== undefined)
+        {
+          html += '<li class="track-div" data-id="' + data.youtube[i].id.videoId + '" data-title="' + data.youtube[i].snippet.title + '" data-artist="">\
+            <div class="artwork"><img src="' + data.youtube[i].snippet.thumbnails.high.url + '"></div>\
+            <span class="song-meta">\
+              <span class="name">' + data.youtube[i].snippet.title.substring(0,20) + '</span><br>\
+              <span class="artist"></span>\
+            </span>\
+          </li>';
+        }
       }
       for (var i=0; i<15; i++)
       {
@@ -38,7 +40,7 @@ $(document).ready(function()
     {
       el.css('background','#EEE');
       $('#right-sidebar')
-      var html = '<li class="song" data-id="' + el.data('id') + '">\
+      var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">\
         <span class="cancel"><img src="/images/cross.png" alt=""></span>\
         <span class="name">' + el.data('title') + '</span><br>\
         <span class="artist">' + el.data('artist') + '</span>\
@@ -86,14 +88,12 @@ $(document).ready(function()
 
     addToQueue: function(el)
     {
-      //should comment this line
-      martie.views.addToQueue(el);
-      //should comment this line
+      partyname = $("#partyurl").data('party');
       $.ajax({
         type: 'POST',
-        url: '/queue',
+        url: '/party/' + partyname + '/add',
         data: {
-          id: el.data('id'),
+          trackId: el.data('id'),
           title: el.data('title')
         },
         success: function() {
@@ -105,9 +105,13 @@ $(document).ready(function()
     removeFromQueue: function(el)
     {
       martie.views.removeFromQueue(el);
+      partyname = $("#partyurl").data('party');
       $.ajax({
         type: 'DELETE',
-        url: '/queue/' + el.data('id'),
+        url: '/party/' + partyname + '/' + el.data('id'),
+        data: {
+          title: el.data('title')
+        },
         success: function() {
           martie.views.removeFromQueue(el);
         }
