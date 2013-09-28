@@ -1,3 +1,34 @@
-<form action="/party/create" method="POST">
-	<input name="partyname">
-</form>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Martie · SDSLabs</title>
+    <link rel="shortcut icon" href="/images/logo.png">
+    <link rel="stylesheet" href="/stylesheets/pure.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+  </head>
+  <body>
+    <div class="content">
+      <div id="navbar" class="pure-u-1 pure-menu pure-menu-open pure-menu-horizontal">
+      <ul>
+        <li id="topbar-logo-div"><a href="/"><img id="logo-image" src="/images/logo.png" alt="">Martie</a></li>
+        <li id="topbar-url"><a href="">An Effortless Party Music Manager</a></li>
+      </ul>
+      </div>
+      <div id="header">
+        <div id="party-name" class="header-text">
+          Hello
+        </div>
+        <div id="party-meta" class="header-text">
+          world?
+        </div>
+        <form action="/party/create" method="POST" class="pure-form" id="search-div">
+          <label for="search-input"><img src="/images/search.png" alt=""></label>
+          <input type="text" name="partyname" class="pure-input-1" id="search-input" placeholder="Name Your Party" autofocus>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
