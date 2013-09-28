@@ -17,14 +17,16 @@
           <li id="topbar-url"><a id="partyurl" data-party="<%= urlname %>" href="/party/<%=urlname%>">martie.sdslabs.co.in/<%= urlname %></a></li>
         </ul>
       </div>
+      <% if (admin === true) {%>
       <script src="http://www.youtube.com/player_api"> </script>
       <div id="player"></div>
+      <% } %>
       <div class="pure-u-1-4 list">
         <h2>QUEUE</h2>
         <ul id="queue" class="admin">
           <% tracks.forEach(function(track){ %>
           <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
-            <!-- <span class="cancel"><img src="/images/cross.png" alt=""></span> -->
+            <% if (admin === true) { %><span class="cancel"><img src="/images/cross.png" alt=""></span><% } %>
             <span class="name"><%= track.split('|')[1] %></span><br>
             <span class="artist"></span>
           </li>            
@@ -36,7 +38,7 @@
         <ul id="queue" class="admin">
           <% tracks.forEach(function(track){ %>
           <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
-            <!-- <span class="cancel"><img src="/images/cross.png" alt=""></span> -->
+            <% if (admin === true) { %><span class="cancel"><img src="/images/plus.png" alt=""></span><% } %>
             <span class="name"><%= track.split('|')[1] %></span><br>
             <span class="artist"></span>
           </li>            
@@ -45,7 +47,7 @@
       </div>
       <div class="pure-u-1-4 list">
         <h2>SEARCH</h2>
-        <input type="text" class="pure-input-1">
+        <input type="text" class="pure-input-1" placeholder="Search" id="party-search">
         <ul id="queue" class="admin">
           <% tracks.forEach(function(track){ %>
           <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">

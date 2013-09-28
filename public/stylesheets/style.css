@@ -82,8 +82,9 @@ input {
   font-size: 25px;
 }
 #header .header-text {
-  margin-left: 270px;
+  margin-left: 300px;
   font-weight: 100;
+  text-shadow: 2px 2px #000;
   padding-top: 10px;
 }
 #header #search-div {
@@ -232,16 +233,30 @@ input {
 .party.content {
   text-align: center;
 }
+.party.content #player {
+  margin-top: 20px;
+}
+.party.content #footer {
+  text-align: left;
+}
+.party.content #navbar {
+  text-align: left;
+}
 .content .pure-u-1-4.list {
+  text-align: left;
   width: 27%;
   padding: 10px 20px;
   margin-right: 1px solid #ababab;
   background: #fff;
 }
 .content .pure-u-1-4.list input {
-  border: 1px solid #000;
+  border: 1px solid #555;
   outline: 0;
-  height: 20px;
+  height: 25px;
+  width: 200px;
+  font-size: 12px;
+  padding-left: 5px;
+  margin-bottom: 10px;
 }
 .content .pure-u-1-4.list h2 {
   font-size: 15px;
@@ -259,4 +274,10 @@ input {
   font-size: 12px;
   font-weight: bold;
   color: #555;
+}
+.content .pure-u-1-4.list ul li img {
+  height: 15px;
+  vertical-align: bottom;
+  margin-right: 10px;
+  cursor: pointer;
 }
