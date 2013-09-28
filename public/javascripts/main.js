@@ -38,13 +38,19 @@ $(document).ready(function()
     {
       el.css('background','#EEE');
       $('#right-sidebar')
-      var html = '<li class="song">\
+      var html = '<li class="song" data-id="' + el.data('id') + '">\
         <span class="cancel"><img src="/images/cross.png" alt=""></span>\
         <span class="name">' + el.data('title') + '</span><br>\
         <span class="artist">' + el.data('artist') + '</span>\
       </li>';
 
       $('#queue').append(html);
+    },
+
+    removeFromQueue: function(el)
+    {
+      $("#queue [data-id='" + el.data('id') +"']").remove();
+      $("#artwork-grid [data-id='" + el.data('id') +"']").css('background','#FFF');
     },
 
     applyMasonry: function(data)
@@ -82,6 +88,7 @@ $(document).ready(function()
     {
       //should comment this line
       martie.views.addToQueue(el);
+      //should comment this line
       $.ajax({
         type: 'POST',
         url: '/queue',
@@ -91,6 +98,18 @@ $(document).ready(function()
         },
         success: function() {
           martie.views.addToQueue(el);
+        }
+      })
+    },
+
+    removeFromQueue: function(el)
+    {
+      martie.views.removeFromQueue(el);
+      $.ajax({
+        type: 'DELETE',
+        url: '/queue/' + el.data('id'),
+        success: function() {
+          martie.views.removeFromQueue(el);
         }
       })
     }
@@ -110,9 +129,11 @@ $(document).ready(function()
 
   if (document.getElementById('artwork-grid') !== null)
   {
-    $('#artwork-grid').on('click', '.track-div', function()
-    {
+    $('#artwork-grid').on('click', '.track-div', function(){
       martie.hooks.addToQueue($(this));
+    })
+    $('#queue').on('click','.cancel', function(){
+      martie.hooks.removeFromQueue($(this).parents('.song'));
     })
   }
 
