@@ -83,8 +83,10 @@ app.post('/party/create', function(req,res){
 
 app.get("/party/create/:partyName", function(req, res){
   var partyName = req.params.partyName;
-  res.render("create",{name: partyName});
-})
+  r.get("party:"+partyName, function(err,name){
+    res.render("create",{name: name, urlname: req.params.partyName});
+  });
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
