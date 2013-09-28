@@ -127,6 +127,9 @@ input {
   margin: 45px 0 0 45px;
   padding: 0;
 }
+#main ul li.selected {
+  background: #eee;
+}
 #main ul li.track-div {
   opacity: 0.8;
   cursor: pointer;

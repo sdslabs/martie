@@ -38,7 +38,7 @@ $(document).ready(function()
 
     addToQueue: function(el)
     {
-      el.css('background','#EEE');
+      el.addClass('selected');
       $('#right-sidebar')
       var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">\
         <span class="cancel"><img src="/images/cross.png" alt=""></span>\
@@ -52,7 +52,7 @@ $(document).ready(function()
     removeFromQueue: function(el)
     {
       $("#queue [data-id='" + el.data('id') +"']").remove();
-      $("#artwork-grid [data-id='" + el.data('id') +"']").css('background','#FFF');
+      $("#artwork-grid [data-id='" + el.data('id') +"']").removeClass('selected');
     },
 
     applyMasonry: function(data)
@@ -134,7 +134,10 @@ $(document).ready(function()
   if (document.getElementById('artwork-grid') !== null)
   {
     $('#artwork-grid').on('click', '.track-div', function(){
-      martie.hooks.addToQueue($(this));
+      if ($(this).hasClass('selected'))
+        martie.hooks.removeFromQueue($(this));
+      else
+        martie.hooks.addToQueue($(this));
     })
     $('#queue').on('click','.cancel', function(){
       martie.hooks.removeFromQueue($(this).parents('.song'));
