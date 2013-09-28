@@ -72,6 +72,12 @@ $(document).ready(function()
       $container.imagesLoaded(function() {
         initialize();
       })
+    },
+
+    upvoteTrack: function(el)
+    {
+      console.log(el);
+      el.children('.upvote').remove();
     }
 
   };
@@ -106,7 +112,7 @@ $(document).ready(function()
     removeFromQueue: function(el)
     {
       martie.views.removeFromQueue(el);
-      partyname = $("#partyurl").data('party');
+      var partyname = $("#partyurl").data('party');
       $.ajax({
         type: 'DELETE',
         url: '/party/' + partyname + '/' + el.data('id'),
@@ -115,6 +121,22 @@ $(document).ready(function()
         },
         success: function() {
           martie.views.removeFromQueue(el);
+        }
+      })
+    },
+
+    upvoteTrack: function(el)
+    {
+      var partyname = $("#partyurl").data('party');
+      var id = el.data('id');
+      $.ajax({
+        url: '/party/' + partyname + '/upvote/' + id,
+        type: 'GET',
+        data: {
+          title: el.data('title')
+        },
+        success: function() {
+          martie.views.upvoteTrack(el);
         }
       })
     }
@@ -142,6 +164,13 @@ $(document).ready(function()
     })
     $('#queue').on('click','.cancel', function(){
       martie.hooks.removeFromQueue($(this).parents('.song'));
+    })
+  }
+
+  if (document.getElementById('suggestions') !== null)
+  {
+    $('#suggestions').on('click','.upvote', function(){
+      martie.hooks.upvoteTrack($(this).parents('.song'));
     })
   }
 

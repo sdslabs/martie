@@ -23,9 +23,9 @@
       <% } %>
       <div class="pure-u-1-4 list">
         <h2>QUEUE</h2>
-        <ul id="queue">
+        <ul>
           <% tracks.forEach(function(track){ %>
-          <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
+          <li class="song" data-id="<%= track.split('|')[0] %>" data-title="<%= track.split('|')[1] %>">
             <% if (admin === true) { %><span class="cancel"><img src="/images/cross.png" alt=""></span><% } %>
             <span class="name"><%= track.split('|')[1] %></span><br>
           </li>            
@@ -34,9 +34,9 @@
       </div>
       <div class="pure-u-1-4 list">
         <h2>SUGGESTIONS</h2>
-        <ul id="queue">
+        <ul id="suggestions">
           <% tracks.forEach(function(track){ %>
-          <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
+          <li class="song" data-id="<%= track.split('|')[0] %>" data-title="<%= track.split('|')[1] %>">
             <% if (admin === true) { %><span class="cancel"><img src="/images/plus.png" alt=""></span><% } %>
             <% if (admin === false) { %><span class="upvote"><img src="/images/up.png" alt=""></span><% } %>
             <span class="name"><%= track.split('|')[1] %></span><br>
@@ -47,7 +47,7 @@
       <div class="pure-u-1-4 list">
         <h2>SEARCH</h2>
         <input type="text" class="pure-input-1" placeholder="Search" id="party-search">
-        <ul id="queue">
+        <ul>
           <% tracks.forEach(function(track){ %>
           <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
             <span class="name"></span>
