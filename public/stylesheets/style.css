@@ -74,7 +74,6 @@ input {
 #header {
   width: 100%;
   height: 200px;
-  background: url("/images/header4.jpg") no-repeat;
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -196,4 +195,32 @@ input {
 }
 #right-sidebar ul li .name {
   font-weight: bold;
+}
+#home {
+  background: #fff;
+}
+#home form {
+  padding: 100px;
+  text-align: center;
+}
+#home form input {
+  border-radius: 0;
+  border: 1px solid #555;
+  box-shadow: none;
+  outline: none;
+  height: 50px;
+  font-size: 20px;
+}
+#home form input:focus {
+  border: 1px solid #555;
+}
+#footer {
+  background: #fff;
+  padding: 15px;
+  font-size: 10px;
+}
+#footer a {
+  text-decoration: none;
+  color: #000;
+  border-bottom: 1px solid #000;
 }
