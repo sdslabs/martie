@@ -38,7 +38,14 @@ app.post('/party/:party/add', function(req, res){
   var title = req.body.title;
   r.rpush("tracks:"+party, trackId+"|"+title);
   res.json("Added track to main list");
-})
+});
+
+app.del('/party/:party/:trackId',function(req, res){
+  var trackId = req.params.trackId;
+  var title = req.body.title;
+  var party = req.params.party;
+  r.lrem("tracks:"+party, trackId+""+title)
+});
 
 app.post('/party/:party/suggest', function(req, res){
   var trackId = req.body.trackId;
