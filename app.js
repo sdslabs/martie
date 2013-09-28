@@ -78,10 +78,11 @@ app.get('/party/:partyName.json', function(req, res){
 app.use(express.static(path.join(__dirname,'./public')));
 
 app.get('/party/:partyName', function(req, res){
+  var isAdmin = (req.session.admin==true);
   //This is THE party page
   var partyName = req.params.partyName;
   r.lrange("tracks:"+partyName, 0, -1, function(err, tracks){
-    res.render("party",{tracks: tracks});
+    res.render("party",{tracks: tracks, admin: isAdmin});
   });
 });
 
