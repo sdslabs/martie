@@ -5,6 +5,7 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var ejs = require("ejs");
 var app = express(),
   redis = require("redis"),
     r = redis.createClient();
@@ -17,6 +18,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('This is my secret'));
+app.set('view engine', 'ejs');
 app.use(express.session());
 app.use(app.router);
 
@@ -76,10 +78,13 @@ app.post('/party/create', function(req,res){
   var partyNameSanitized = partyName.replace(/\W/g,'-');
   req.session.admin=true;
   r.set("party:"+partyNameSanitized, partyName);
-  res.redirect('/'+partyNameSanitized);
+  res.redirect('/party/create'+partyNameSanitized);
+});
+
+app.get("/party/create/:partyName", function(req, res){
+  var partyName = req.params.partyName;
+  res.render("create",{name: partyName});
 })
-
-
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
