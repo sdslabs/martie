@@ -21,6 +21,22 @@
   padding: 0;
   font-family: 'Oxygen';
 }
+.pure-g [class *= "pure-u"] {
+  font-family: 'Oxygen';
+  font-weight: 100;
+}
+.pure-g-r [class *= "pure-u"] {
+  font-family: 'Oxygen';
+  font-weight: 100;
+}
+button {
+  font-family: 'Oxygen';
+  font-weight: 100;
+}
+input {
+  font-family: 'Oxygen';
+  font-weight: 100;
+}
 body {
   overflow-y: hidden;
 }
@@ -44,7 +60,6 @@ body {
 #topbar-logo-div {
   padding: 10px 50px 10px 30px;
   font-size: 30px;
-  font-weight: 100;
   border-right: 1px solid #eee;
 }
 #topbar-logo-div #logo-image {
@@ -66,13 +81,45 @@ body {
   background-size: cover;
   background-position: center;
   color: #fff;
+  position: relative;
 }
-#party-name {
+#header #party-name {
   padding-top: 40px;
   font-size: 25px;
 }
-.header-text {
+#header .header-text {
   margin-left: 270px;
   font-weight: 100;
   padding-top: 10px;
+}
+#header #search-div {
+  height: 50px;
+}
+#header #search-div label {
+  cursor: pointer;
+  position: absolute;
+  margin-top: 65px;
+  margin-left: 15px;
+}
+#header #search-div label img {
+  height: 20px;
+}
+#header #search-div #search-input {
+  height: 50px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  padding-left: 50px;
+  margin-top: 50px;
+  font-size: 20px;
+  color: #fff;
+}
+#header #search-div #search-input:focus {
+  border: none;
+  box-shadow: none;
+}
+#header #search-div #search-input::-webkit-input-placeholder {
+  color: #fff;
 }
