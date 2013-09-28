@@ -30,7 +30,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.post('/party/:party/add', function(){
+app.post('/party/:party/add', function(req, res){
   var trackId = req.body.trackId;
   if(req.session.admin){
 
