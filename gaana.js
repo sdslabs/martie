@@ -8,6 +8,12 @@ module.exports = function(api_key){
       r.get(queryURL, function(res){
         cb(res);
       })
+    },
+    details: function(trackId, cb){
+      queryURL = api_root+"tracks/details.json/"+trackId+"?api_key="+api_key;
+      r.get(queryURL, function(res){
+        cb(res);
+      })
     }
   }
 }
