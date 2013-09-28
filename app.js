@@ -48,19 +48,6 @@ app.del('/party/:party/:trackId',function(req, res){
   res.json("Track removed");
 });
 
-app.post('/party/:party/suggest', function(req, res){
-  var trackId = req.body.trackId;
-  var partyName = req.params.party;
-  var title = req.body.title;
-  r.zadd("suggests:"+partyName, 1, trackId+"|"+title);
-});
-
-app.post('/party/:party/upvote', function(req, res){
-  var trackId = req.body.trackId;
-  var patyName = req.params.party
-  r.zincrby("suggests:"+partyName, 1, trackId);
-});
-
 /** This is the most important endpoint */
 app.get('/party/:partyName.json', function(req, res){
   var partyName = req.params.partyName
