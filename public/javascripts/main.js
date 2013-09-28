@@ -11,7 +11,8 @@ $(document).ready(function()
       var html = '';
       for (i in data.youtube)
       {
-        html += '<li class="track-div" data-id="' + data.youtube[i].id.videoId + '" data-title="' + data.youtube[i].snippet.title + '">\
+        var id = (data.youtube[i].id.videoId !== undefined) ? data.youtube[i].id.videoId : data.youtube[i].id.channelId;
+        html += '<li class="track-div" data-id="' + id + '" data-title="' + data.youtube[i].snippet.title + '" data-artist="">\
           <div class="artwork"><img src="' + data.youtube[i].snippet.thumbnails.high.url + '"></div>\
           <span class="song-meta">\
             <span class="name">' + data.youtube[i].snippet.title.substring(0,20) + '</span><br>\
@@ -21,7 +22,7 @@ $(document).ready(function()
       }
       for (var i=0; i<15; i++)
       {
-        html += '<li class="track-div" data-id="' + data.gaana[i].track_id + '" data-title="' + data.gaana[i].track_title + '">\
+        html += '<li class="track-div" data-id="' + data.gaana[i].track_id + '" data-title="' + data.gaana[i].track_title + '" data-artist="' + data.gaana[i].artist[0].name + '">\
           <div class="artwork"><img src="' + data.gaana[i].artwork + '"></div>\
           <span class="song-meta">\
             <span class="name">' + data.gaana[i].track_title.substring(0,20) + '</span><br>\
@@ -31,6 +32,19 @@ $(document).ready(function()
       }
       ag.html(html);
       martie.views.applyMasonry();
+    },
+
+    addToQueue: function(el)
+    {
+      el.css('background','#EEE');
+      $('#right-sidebar')
+      var html = '<li class="song">\
+        <span class="cancel"><img src="/images/cross.png" alt=""></span>\
+        <span class="name">' + el.data('title') + '</span><br>\
+        <span class="artist">' + el.data('artist') + '</span>\
+      </li>';
+
+      $('#queue').append(html);
     },
 
     applyMasonry: function(data)
@@ -62,16 +76,44 @@ $(document).ready(function()
         martie.views.renderSearchResults(data);
       })
 
+    },
+
+    addToQueue: function(el)
+    {
+      //should comment this line
+      martie.views.addToQueue(el);
+      $.ajax({
+        type: 'POST',
+        url: '/queue',
+        data: {
+          id: el.data('id'),
+          title: el.data('title')
+        },
+        success: function() {
+          martie.views.addToQueue(el);
+        }
+      })
     }
 
   }
 
   /* Attach event handlers */
 
-  $('#search-div').submit(function(e){
-    martie.hooks.renderSearchResults();
-    e.preventDefault();
-    return false;
-  })
+  if (document.getElementById('search-div') !== null)
+  {
+    $('#search-div').submit(function(e){
+      martie.hooks.renderSearchResults();
+      e.preventDefault();
+      return false;
+    })
+  }
+
+  if (document.getElementById('artwork-grid') !== null)
+  {
+    $('#artwork-grid').on('click', '.track-div', function()
+    {
+      martie.hooks.addToQueue($(this));
+    })
+  }
 
 });
