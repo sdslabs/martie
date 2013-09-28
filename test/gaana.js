@@ -1,11 +1,9 @@
 var assert = require('assert');
 describe("Gaana", function(){
-  var gaana = require('../gaana')("K1234");
+  var gaana = require('../gaana');
   it("should return search results", function(done){
     gaana.search("Miley", function(res){
-      console.log(res);
-      assert(true);
-      //assert(res.length>0);
+      assert(res.length>0);
     });
   });
 });

@@ -6,6 +6,8 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var ejs = require("ejs");
+var yt=require("./youtube");
+var gaana = require("./gaana");
 var app = express(),
   redis = require("redis"),
     r = redis.createClient();
@@ -86,6 +88,22 @@ app.get("/party/create/:partyName", function(req, res){
   r.get("party:"+partyName, function(err,name){
     res.render("create",{name: name, urlname: req.params.partyName});
   });
+});
+
+app.get('/search', function(req, res){
+  console.log("You searched for "+req.query.query);
+  var q = req.query.query;
+  yt.search(q, function(YTresponse){
+    //Now lets try gaana
+    gaana.search(q, function(Gresponse){
+      console.log(Gresponse);
+      res.json({
+        gaana: Gresponse,
+        youtube: YTresponse
+      });
+    });
+    
+  })
 });
 
 http.createServer(app).listen(app.get('port'), function(){
