@@ -77,14 +77,11 @@ app.get('/party/:partyName.json', function(req, res){
 app.use(express.static(path.join(__dirname,'./public')));
 
 app.get('/party/:partyName', function(req, res){
-  //This is a party page
-  //send out different things to different people
-  if(req.session.admin){
-    res.sendfile("./public/admin.html");
-  }
-  else{
-    res.sendfile("./public/attendee.html");
-  }
+  //This is THE party page
+  var partyName = req.params.partyName;
+  r.lrange("tracks:"+partyName, 0, -1, function(err, tracks){
+    res.render("party",{tracks: tracks});
+  });
 });
 
 app.get('/', function(req, res){
