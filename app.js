@@ -37,28 +37,21 @@ app.post('/:party/add', function(){
 
 app.post('/:party/suggest', function(req, res){
   var trackId = req.body.trackId;
-  var patyName = req.param.party
+  var patyName = req.params.party
   r.zadd("suggests:"+partyName, 1, trackId);
 });
 
 app.post('/:party/upvote', function(req, res){
   var trackId = req.body.trackId;
-  var patyName = req.param.party
+  var patyName = req.params.party
   r.zincrby("suggests:"+partyName, 1, trackId);
 })
 
 /** This is the most important endpoint */
 app.get('/:partyName.json', function(req, res){
-  r.get("party:"+req.param.partyName, function(err, response){
-    console.log([err, response]);
-    if(err)
-      throw err;
-    console.log(response);
-    res.json({
-      name: response
-    })  
+  var result = r.get("party:"+req.params.partyName, function(err, response){
+    res.json({name: response});
   });
-  
 })
 app.get('/:partyName', function(req, res){
   //This is a party page
