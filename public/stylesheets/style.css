@@ -176,6 +176,7 @@ input {
 #right-sidebar ul li {
   margin-top: 10px;
   list-style: none;
+  overflow: hidden;
 }
 #right-sidebar ul li .cancel {
   float: right;
@@ -193,6 +194,6 @@ input {
 #right-sidebar ul li span {
   font-size: 12px;
 }
-#right-sidebar ul li .artist {
+#right-sidebar ul li .name {
   font-weight: bold;
 }
