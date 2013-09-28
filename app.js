@@ -4,6 +4,7 @@
 
 var express = require('express');
 var http = require('http');
+var path = require('path');
 var app = express(),
   redis = require("redis"),
     r = redis.createClient();
@@ -25,7 +26,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.post('/:party/add', function(){
+app.post('/party/:party/add', function(){
   var trackId = req.body.trackId;
   if(req.session.admin){
 
@@ -35,25 +36,27 @@ app.post('/:party/add', function(){
   }
 })
 
-app.post('/:party/suggest', function(req, res){
+app.post('/party/:party/suggest', function(req, res){
   var trackId = req.body.trackId;
   var patyName = req.params.party
   r.zadd("suggests:"+partyName, 1, trackId);
 });
 
-app.post('/:party/upvote', function(req, res){
+app.post('/party/:party/upvote', function(req, res){
   var trackId = req.body.trackId;
   var patyName = req.params.party
   r.zincrby("suggests:"+partyName, 1, trackId);
 })
 
 /** This is the most important endpoint */
-app.get('/:partyName.json', function(req, res){
+app.get('/party/:partyName.json', function(req, res){
   var result = r.get("party:"+req.params.partyName, function(err, response){
     res.json({name: response});
   });
 })
-app.get('/:partyName', function(req, res){
+app.use(express.static(path.join(__dirname,'./public')));
+
+app.get('/party/:partyName', function(req, res){
   //This is a party page
   //send out different things to different people
   if(req.session.admin){
@@ -76,7 +79,7 @@ app.post('/party/create', function(req,res){
   res.redirect('/'+partyNameSanitized);
 })
 
-app.use(express.static('./public'));
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
