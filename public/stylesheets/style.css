@@ -229,6 +229,9 @@ input {
   color: #000;
   border-bottom: 1px solid #000;
 }
+.party.content {
+  text-align: center;
+}
 .content .pure-u-1-4.list {
   width: 27%;
   padding: 10px 20px;
@@ -238,7 +241,7 @@ input {
 .content .pure-u-1-4.list input {
   border: 1px solid #000;
   outline: 0;
-  height: 50px;
+  height: 20px;
 }
 .content .pure-u-1-4.list h2 {
   font-size: 15px;
