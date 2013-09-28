@@ -275,6 +275,9 @@ input {
   font-weight: bold;
   color: #555;
 }
+.content .pure-u-1-4.list ul li .upvote {
+  float: right;
+}
 .content .pure-u-1-4.list ul li img {
   height: 15px;
   vertical-align: bottom;

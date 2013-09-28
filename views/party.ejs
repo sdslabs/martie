@@ -23,24 +23,23 @@
       <% } %>
       <div class="pure-u-1-4 list">
         <h2>QUEUE</h2>
-        <ul id="queue" class="admin">
+        <ul id="queue">
           <% tracks.forEach(function(track){ %>
           <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
             <% if (admin === true) { %><span class="cancel"><img src="/images/cross.png" alt=""></span><% } %>
             <span class="name"><%= track.split('|')[1] %></span><br>
-            <span class="artist"></span>
           </li>            
           <% }) %>
         </ul>
       </div>
       <div class="pure-u-1-4 list">
         <h2>SUGGESTIONS</h2>
-        <ul id="queue" class="admin">
+        <ul id="queue">
           <% tracks.forEach(function(track){ %>
           <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
             <% if (admin === true) { %><span class="cancel"><img src="/images/plus.png" alt=""></span><% } %>
+            <% if (admin === false) { %><span class="upvote"><img src="/images/up.png" alt=""></span><% } %>
             <span class="name"><%= track.split('|')[1] %></span><br>
-            <span class="artist"></span>
           </li>            
           <% }) %>
         </ul>
@@ -48,12 +47,10 @@
       <div class="pure-u-1-4 list">
         <h2>SEARCH</h2>
         <input type="text" class="pure-input-1" placeholder="Search" id="party-search">
-        <ul id="queue" class="admin">
+        <ul id="queue">
           <% tracks.forEach(function(track){ %>
           <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
-            <!-- <span class="cancel"><img src="/images/cross.png" alt=""></span> -->
-            <span class="name"><%= track.split('|')[1] %></span><br>
-            <span class="artist"></span>
+            <span class="name"></span>
           </li>            
           <% }) %>
         </ul>
