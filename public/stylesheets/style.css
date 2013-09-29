@@ -264,6 +264,9 @@ input {
   padding-bottom: 20px;
   border-bottom: 1px solid #ababab;
 }
+.content .pure-u-1-4.list ul#search-list li {
+  cursor: pointer;
+}
 .content .pure-u-1-4.list ul {
   margin: 0;
   padding: 0;

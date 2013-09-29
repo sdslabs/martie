@@ -5,35 +5,50 @@ $(document).ready(function()
 
   martie.views = {
 
-    renderSearchResults: function(data)
+    renderSearchResults: function(data, party)
     {
-      var ag = $('#artwork-grid');
-      var html = '';
-      for (i in data.youtube)
+      if (party != true)
       {
-        if (data.youtube[i].id.videoId !== undefined)
+        var ag = $('#artwork-grid');
+        var html = '';
+        for (i in data.youtube)
         {
-          html += '<li class="track-div" data-id="' + data.youtube[i].id.videoId + '" data-title="' + data.youtube[i].snippet.title + '" data-artist="">\
-            <div class="artwork"><img src="' + data.youtube[i].snippet.thumbnails.high.url + '"></div>\
+          if (data.youtube[i].id.videoId !== undefined)
+          {
+            html += '<li class="track-div" data-id="' + data.youtube[i].id.videoId + '" data-title="' + data.youtube[i].snippet.title + '" data-artist="">\
+              <div class="artwork"><img src="' + data.youtube[i].snippet.thumbnails.high.url + '"></div>\
+              <span class="song-meta">\
+                <span class="name">' + data.youtube[i].snippet.title.substring(0,20) + '</span><br>\
+                <span class="artist"></span>\
+              </span>\
+            </li>';
+          }
+        }
+        for (var i=0; i<15; i++)
+        {
+          html += '<li class="track-div" data-id="' + data.gaana[i].track_id + '" data-title="' + data.gaana[i].track_title + '" data-artist="' + data.gaana[i].artist[0].name + '">\
+            <div class="artwork"><img src="' + data.gaana[i].artwork + '"></div>\
             <span class="song-meta">\
-              <span class="name">' + data.youtube[i].snippet.title.substring(0,20) + '</span><br>\
-              <span class="artist"></span>\
+              <span class="name">' + data.gaana[i].track_title.substring(0,20) + '</span><br>\
+              <span class="artist">' + data.gaana[i].artist[0].name + '</span>\
             </span>\
           </li>';
         }
+        ag.html(html);
+        martie.views.applyMasonry();
       }
-      for (var i=0; i<15; i++)
+      else
       {
-        html += '<li class="track-div" data-id="' + data.gaana[i].track_id + '" data-title="' + data.gaana[i].track_title + '" data-artist="' + data.gaana[i].artist[0].name + '">\
-          <div class="artwork"><img src="' + data.gaana[i].artwork + '"></div>\
-          <span class="song-meta">\
-            <span class="name">' + data.gaana[i].track_title.substring(0,20) + '</span><br>\
-            <span class="artist">' + data.gaana[i].artist[0].name + '</span>\
-          </span>\
-        </li>';
+        console.log(data);
+        var html = '';
+        for (var i=0; i<15; i++)
+        {
+          html += '<li class="song" data-id="' + data.youtube[i].id.videoId + '" data-title="' + data.youtube[i].snippet.title + '">\
+              <span class="name">' + data.youtube[i].snippet.title + '</span><br>\
+            </li>';
+        }
+        $('#search-list').html(html);
       }
-      ag.html(html);
-      martie.views.applyMasonry();
     },
 
     addToQueue: function(el)
@@ -76,26 +91,49 @@ $(document).ready(function()
 
     upvoteTrack: function(el)
     {
-      console.log(el);
       el.children('.upvote').remove();
+    },
+
+    addToSuggestions: function(el)
+    {
+      var admin = $("#partyurl").data('admin');
+      console.log(admin);
+      var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">';
+      if (admin == true)
+        html += '<span class="cancel"><img src="/images/plus.png" alt=""></span>';
+      else
+        html += '<span class="upvote"><img src="/images/up.png" alt=""></span>';
+      html += '<span class="name">' + el.data('title') + '</span><br></li>';
+      $('#suggestions').append(html);
     }
 
   };
 
   martie.hooks = {
 
-    renderSearchResults: function() {
-      var input = $('#search-input').val();
-      $('#artwork-grid').css('opacity','0');
-      $.get('/search?query=' + input, function(data) {
-        martie.views.renderSearchResults(data);
-      })
+    renderSearchResults: function(party) {
+      var input;
+      if (party == true)
+      {
+        input = $('#party-search').val();
+        $.get('/search?query=' + input, function(data) {
+          martie.views.renderSearchResults(data, true);
+        })
+      }
+      else
+      {
+        input = $('#search-input').val();
+        $('#artwork-grid').css('opacity','0');
+        $.get('/search?query=' + input, function(data) {
+          martie.views.renderSearchResults(data);
+        })
+      }
 
     },
 
     addToQueue: function(el)
     {
-      partyname = $("#partyurl").data('party');
+      var partyname = $("#partyurl").data('party');
       $.ajax({
         type: 'POST',
         url: '/party/' + partyname + '/add',
@@ -129,16 +167,33 @@ $(document).ready(function()
     {
       var partyname = $("#partyurl").data('party');
       var id = el.data('id');
-      $.ajax({
-        url: '/party/' + partyname + '/upvote/' + id,
-        type: 'GET',
-        data: {
-          title: el.data('title')
-        },
-        success: function() {
-          martie.views.upvoteTrack(el);
-        }
-      })
+      martie.views.upvoteTrack(el);
+      //Make request to ShepHertz endpoint here
+      // $.ajax({
+      //   url: '/party/' + partyname + '/upvote/' + id,
+      //   type: 'GET',
+      //   data: {
+      //     title: el.data('title')
+      //   },
+      //   success: function() {
+      //   }
+      // })
+    },
+
+    addToSuggestions: function(el)
+    {
+      var partyname = $("#partyurl").data('party');
+      martie.views.addToSuggestions(el);
+      //Make request to ShepHertz endpoint here
+      // $.ajax({
+      //   url: '/party/' + partyname + '/upvote/' + id,
+      //   type: 'GET',
+      //   data: {
+      //     title: el.data('title')
+      //   },
+      //   success: function() {
+      //   }
+      // })
     }
 
   }
@@ -149,6 +204,15 @@ $(document).ready(function()
   {
     $('#search-div').submit(function(e){
       martie.hooks.renderSearchResults();
+      e.preventDefault();
+      return false;
+    })
+  }
+
+  if (document.getElementById('party-search') !== null)
+  {
+    $('#party-search').parents('form').submit(function(e){
+      martie.hooks.renderSearchResults(true);
       e.preventDefault();
       return false;
     })
@@ -171,6 +235,13 @@ $(document).ready(function()
   {
     $('#suggestions').on('click','.upvote', function(){
       martie.hooks.upvoteTrack($(this).parents('.song'));
+    })
+  }
+
+  if (document.getElementById('search-list') !== null)
+  {
+    $('#search-list').on('click','li.song', function(){
+      martie.hooks.addToSuggestions($(this));
     })
   }
 
