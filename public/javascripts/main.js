@@ -112,6 +112,8 @@ $(document).ready(function()
     upvoteTrack: function(el)
     {
       el.children('.upvote').remove();
+      // var parent = $(el).parents()
+      upvoteSong(el.data('id'));
     },
 
     addToSuggestions: function(el)
