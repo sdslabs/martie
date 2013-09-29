@@ -43,4 +43,52 @@ function onPlayerStateChange(event) {
 }
 function stopVideo() {
   player.stopVideo();
+// This function creates an <iframe> (and YouTube player)
+// after the API code downloads.
+function onYouTubePlayerAPIReady() {
+    player = new YT.Player('player', {
+        height: '390',
+        width: '840',
+        videoId: tracks[0].slice("|")[0],
+        events: {
+            'onStateChange': function (event) {
+                switch (event.data) {
+                    case -1:
+                        console.log ('unstarted');
+                        break;
+                    case 0:
+                        console.log ('ended');
+                        break;
+                    case 1:
+                        console.log ('playing');
+                        break;
+                    case 2:
+                        console.log ('paused');
+                        break;
+                    case 3:
+                        console.log ('buffering');
+                        break;
+                    case 5:
+                        console.log ('video cued');
+                        break;
+                }
+            }
+        }
+    });
+}
+
+var main = function()
+{
+    WarpClient.getAllRooms();
+}
+
+var gotRoomInfo = function(data)
+{
+    var url = window.location.href;
+    var roomname = url.substr(url.lastIndexOf("/")+1);
+    if(roomname === data.roomdata.name)
+    {
+        roomID = data.roomdata.id;
+    }
+    WarpClient.joinRoom(roomID);
 }

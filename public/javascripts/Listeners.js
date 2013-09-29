@@ -60,7 +60,7 @@ function MyRoomRequestListener() {
 	};
 	this.onGetLiveRoomInfoDone = function(event){
 		console.log("Got room info", event);
-		gotRoomInfo(event.customData);
+		gotRoomInfo(event);
 		// var data = [];var trackid = 1354; var obj = {};
 		// obj[trackid] = 1;//console.log(obj);
 		// if(event.result == resultcode_success){
