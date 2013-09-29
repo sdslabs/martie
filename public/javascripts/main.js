@@ -107,7 +107,7 @@ $(document).ready(function()
       var admin = $("#partyurl").data('admin');
       console.log(admin);
       var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">';
-      if (admin == true)
+      if (admin === 'true')
         html += '<span class="plus"><img src="/images/plus.png" alt=""></span>';
       else
         html += '<span class="upvote"><img src="/images/up.png" alt=""></span>';
@@ -125,7 +125,7 @@ $(document).ready(function()
         </li>';
       }
       $('#queue').html(html);
-      alert(html);
+      // alert(html);
     }
 
   };

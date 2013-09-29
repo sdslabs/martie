@@ -2,7 +2,7 @@ $(document).ready(function(){
   $.extend(soundManager.defaultOptions,{
     /** What to do when the song ends */
     onfinish:function(){
-      alert("onfinish called");
+      // alert("onfinish called");
       var partyName = $('#partyurl').data("party");
       $.getJSON("/party/"+partyName+".json", function(data){
         tracks = data.tracks;
