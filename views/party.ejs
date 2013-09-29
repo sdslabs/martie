@@ -34,15 +34,7 @@
       </div>
       <div class="pure-u-1-4 list">
         <h2>SUGGESTIONS</h2>
-        <ul id="suggestions">
-          <% tracks.forEach(function(track){ %>
-          <li class="song" data-id="<%= track.split('|')[0] %>" data-title="<%= track.split('|')[1] %>">
-            <% if (admin === true) { %><span class="plus"><img src="/images/plus.png" alt=""></span><% } %>
-            <% if (admin === false) { %><span class="upvote"><img src="/images/up.png" alt=""></span><% } %>
-            <span class="name"><%= track.split('|')[1] %></span><br>
-          </li>
-          <% }) %>
-        </ul>
+        <ul id="suggestions"></ul>
       </div>
       <div class="pure-u-1-4 list">
         <h2>SEARCH</h2>
