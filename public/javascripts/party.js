@@ -201,7 +201,7 @@ var updateData = function(songsList)
         }
     }
 
-    setTimeout(joinedRoom, 30000);
+    setTimeout(joinedRoom, 5000);
 }
 
 var upvoteSong = function(trackid)
