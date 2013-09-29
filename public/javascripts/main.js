@@ -35,6 +35,8 @@ $(document).ready(function()
           </li>';
         }
         ag.html(html);
+        if (document.getElementById('loader') !== null)
+          $('#loader').hide();
         martie.views.applyMasonry();
       }
       else
