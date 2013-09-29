@@ -59,7 +59,6 @@ app.get('/party/:partyName.json', function(req, res){
         name: response
       });
     });
-    
   });
 })
 app.use(express.static(path.join(__dirname,'./public')));
