@@ -233,8 +233,17 @@ input {
 .party.content {
   text-align: center;
 }
+.party.content #party-head {
+  display: block;
+  width: 100%;
+}
 .party.content #player {
   margin-top: 20px;
+  display: inline-block;
+}
+.party.content #qr {
+  display: inline-block;
+  vertical-align: top;
 }
 .party.content #footer {
   text-align: left;
