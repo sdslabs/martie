@@ -82,6 +82,7 @@ $(document).ready(function()
     {
       $("#queue [data-id='" + el.data('id') +"']").remove();
       $("#artwork-grid [data-id='" + el.data('id') +"']").removeClass('selected');
+      removeSong(el.data('id'));
     },
 
     applyMasonry: function(data)

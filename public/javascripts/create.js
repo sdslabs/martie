@@ -12,11 +12,18 @@ var addSong = function(trackid)
 	this.gotRoomInfo = function(data)
 	{
 		if(data)
-			var data = JSON.parse(data);
+		{
+			data = JSON.parse(data);
+			if(trackid in data)
+				data[trackid]++;
+			else
+				data[trackid] = 1;
+			WarpClient.setCustomRoomData(roomID, data);
+		}	
 		else
 		{
 			var add = {}; add[trackid] = 1;
-			var data = JSON.stringify(add);
+			data = JSON.stringify(add);
 			WarpClient.setCustomRoomData(roomID, data);
 		}
 		// console.log(trackid, data);
@@ -24,9 +31,23 @@ var addSong = function(trackid)
 	}
 }
 
-var gotRoomInfo = function(data)
+var removeSong = function(trackid)
 {
-	addSong.gotRoomInfo();
+	WarpClient.getLiveRoomInfo(roomID);
+	this.gotRoomInfo = function(data)
+	{
+		if(data)
+		{
+			data = JSON.parse(data);
+			if(trackid in data)
+			{
+				delete data[trackid];
+				if($.isEmptyObject(data))
+					data = "";
+				WarpClient.setCustomRoomData(roomID, data);
+			}	
+		}
+	}
 }
 
 var setRoomData = function(event)
