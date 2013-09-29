@@ -121,14 +121,10 @@ app.get("/room/:name", function(req, res){
 
 app.get('/search', function(req, res){
   var q = req.query.query;
-  yt.search(q, function(YTresponse){
-    gaana.search(q, function(Gresponse){
-      res.json({
-        gaana: Gresponse,
-        youtube: YTresponse
-      });
-    });
-  })
+  var r=require('request');
+  r.get("http://localhost/muzi/ajax/search/?search="+q, function(err,response, body){
+    res.send(body);
+  });
 });
 
 http.createServer(app).listen(app.get('port'), function(){
