@@ -1,94 +1,34 @@
-var tag = document.createElement('script');
-
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
-var player;
-i=0;
-function onYouTubeIframeAPIReady() {
-  play(0);
-}
-
-function play(i){
-  var trackId = tracks[i].split("|")[0];
-  player = new YT.Player('player', {
-    height: '390',
-    width: '640',
-    videoId: trackId,
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  });
-}
-
-// 4. The API will call this function when the video player is ready.
-function onPlayerReady(event) {
-  event.target.playVideo();
-}
-
-// 5. The API calls this function when the player's state changes.
-//    The function indicates that when playing a video (state=1),
-//    the player should play for six seconds and then stop.
-var done = false;
-function onPlayerStateChange(event) {
-  if (event.data == YT.PlayerState.ENDED) {
-    console.log("Play the next video");
-    i=i+1;
-    play(i);
+window.currentTrackId =0 ;
+$(document).ready(function(){
+  $.extend(soundManager.defaultOptions,{
+  /** What to do when the song ends */
+  onfinish:function(){
+    alert("song finished");
+    currentTrackId+=1;
+    window.play(currentTrackId);
   }
-}
-function stopVideo() {
-  player.stopVideo();
-// This function creates an <iframe> (and YouTube player)
-// after the API code downloads.
-function onYouTubePlayerAPIReady() {
-    player = new YT.Player('player', {
-        height: '390',
-        width: '840',
-        videoId: tracks[0].slice("|")[0],
-        events: {
-            'onStateChange': function (event) {
-                switch (event.data) {
-                    case -1:
-                        console.log ('unstarted');
-                        break;
-                    case 0:
-                        console.log ('ended');
-                        break;
-                    case 1:
-                        console.log ('playing');
-                        break;
-                    case 2:
-                        console.log ('paused');
-                        break;
-                    case 3:
-                        console.log ('buffering');
-                        break;
-                    case 5:
-                        console.log ('video cued');
-                        break;
-                }
-            }
-        }
+});
+  soundManager.setup({ url: '/swf/', flashVersion: 9 ,
+  onready: function(){
+    window.play(0);
+  }});
+  window.play=function(i){
+    var id = tracks[i].split("|")[0];
+    console.log("play called"+id);
+    $.getJSON("http://localhost/muzi/ajax/track/?id="+id, function(data){
+      window.currentTrack = soundManager.createSound({
+       // optional id, for getSoundById() look-ups etc. If omitted, an id will be generated.
+       id: 'mySound',
+       url: 'http://localhost/Music/'+data.file,
+       // optional sound parameters here, see Sound Properties for full list
+       autoPlay: true
+      });
     });
-}
+  }
 
-var main = function()
-{
-    WarpClient.getAllRooms();
-}
-
-var gotRoomInfo = function(data)
-{
-    var url = window.location.href;
-    var roomname = url.substr(url.lastIndexOf("/")+1);
-    if(roomname === data.roomdata.name)
-    {
-        roomID = data.roomdata.id;
-    }
-    WarpClient.joinRoom(roomID);
-}
+  $('#skip').click(function(){
+    var current=window.currentTrack.position;
+    current+=30*1000;
+    window.currentTrack.setPosition(current);
+  })
+})
