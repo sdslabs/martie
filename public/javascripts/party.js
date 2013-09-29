@@ -7,7 +7,7 @@ $(document).ready(function(){
       window.play(currentTrackId);
       var partyName = $('#partyurl').data("party");
       $.getJSON("/party/"+partyName+".json", function(data){
-        console.log(data);
+        tracks = data.tracks;
       })
     }
   });
