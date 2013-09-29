@@ -7,46 +7,35 @@ $(document).ready(function()
 
     renderSearchResults: function(data, party)
     {
+      data = JSON.parse(data);
       if (party != true)
       {
         var ag = $('#artwork-grid');
         var html = '';
-        for (i in data.youtube)
+
+        for (i in data.tracks)
         {
-          if (data.youtube[i].id.videoId !== undefined)
+          if (data.tracks[i].id !== undefined)
           {
-            html += '<li class="track-div" data-id="' + data.youtube[i].id.videoId + '" data-title="' + data.youtube[i].snippet.title + '" data-artist="">\
-              <div class="artwork"><img src="' + data.youtube[i].snippet.thumbnails.high.url + '"></div>\
+            html += '<li class="track-div" data-id="' + data.tracks[i].id + '" data-title="' + data.tracks[i].title + '" data-artist="">\
+              <div class="artwork"><img src="/pics/' + data.tracks[i].albumId + '.jpg"></div>\
               <span class="song-meta">\
-                <span class="name">' + data.youtube[i].snippet.title.substring(0,20) + '</span><br>\
+                <span class="name">' + data.tracks[i].title.substring(0,20) + '</span><br>\
                 <span class="artist"></span>\
               </span>\
             </li>';
           }
         }
-        for (var i=0; i<15; i++)
-        {
-          html += '<li class="track-div" data-id="' + data.gaana[i].track_id + '" data-title="' + data.gaana[i].track_title + '" data-artist="' + data.gaana[i].artist[0].name + '">\
-            <div class="artwork"><img src="' + data.gaana[i].artwork + '"></div>\
-            <span class="song-meta">\
-              <span class="name">' + data.gaana[i].track_title.substring(0,20) + '</span><br>\
-              <span class="artist">' + data.gaana[i].artist[0].name + '</span>\
-            </span>\
-          </li>';
-        }
         ag.html(html);
-        if (document.getElementById('loader') !== null)
-          $('#loader').hide();
         martie.views.applyMasonry();
       }
       else
       {
-        console.log(data);
         var html = '';
-        for (var i=0; i<15; i++)
+        for (i in data.tracks)
         {
-          html += '<li class="song" data-id="' + data.youtube[i].id.videoId + '" data-title="' + data.youtube[i].snippet.title + '">\
-              <span class="name">' + data.youtube[i].snippet.title + '</span><br>\
+          html += '<li class="song" data-id="' + data.tracks[i].id + '" data-title="' + data.tracks[i].title + '">\
+              <span class="name">' + data.tracks[i].title + '</span><br>\
             </li>';
         }
         if (document.getElementById('loader') !== null)
@@ -61,7 +50,6 @@ $(document).ready(function()
       if (party == true)
       {
         var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">';
-        if (admin === true) html += '<span class="cancel"><img src="/images/cross.png" alt=""></span>';
         html += '<span class="name">' + el.data('title') + '</span><br></li>';
         $('#queue').append(html);
         el.remove();
@@ -121,13 +109,26 @@ $(document).ready(function()
       var admin = $("#partyurl").data('admin');
       console.log(admin);
       var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">';
-      if (admin == true)
+      if (admin === 'true')
         html += '<span class="plus"><img src="/images/plus.png" alt=""></span>';
       else
         html += '<span class="upvote"><img src="/images/up.png" alt=""></span>';
       html += '<span class="name">' + el.data('title') + '</span><br></li>';
       $('#suggestions').append(html);
       addSuggestedSong(el.data('id'), el.data('title'));
+    },
+
+    renderQueue: function(tracks)
+    {
+      var html = '';
+      for (i in tracks)
+      {
+        html += '<li class="song" data-id="' + tracks[i].split('|')[0] + '" data-title="' + tracks[i].split('|')[1] + '">\
+          <span class="name">' + tracks[i].split('|')[1] + '</span><br>\
+        </li>';
+      }
+      $('#queue').html(html);
+      // alert(html);
     }
 
   };
@@ -219,6 +220,18 @@ $(document).ready(function()
       //   success: function() {
       //   }
       // })
+    },
+
+    renderQueue: function()
+    {
+      var partyname = $("#partyurl").data('party');
+      $.ajax({
+        type: 'GET',
+        url: '/party/' + partyname + '/.json',
+        success: function(data) {
+          martie.views.renderQueue(data);
+        }
+      })
     }
 
   }

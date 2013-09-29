@@ -19,7 +19,8 @@
       </div>
       <div id="party-head">
         <div id="qr">
-          <img src="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=http://martie.sdslabs.co.in/party/<%=urlname%>" alt="">
+          <!-- <img src="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=http://martie.sdslabs.co.in/party/<%=urlname%>" alt=""> -->
+          <img src="/images/qr.png" alt="">
         </div>
         <% if (admin === true) {%>
           <script src="http://www.youtube.com/player_api"></script>
@@ -51,6 +52,7 @@
       </div>
       <div id="footer">
           Team SDSLabs · 2013 · <a href="//github.com/sdslabs/martie">github.com/sdslabs/martie</a>
+          <a href="#" id="skip">Skip</a>
       </div>
     </div>
     <script src="/javascripts/jquery.min.js"></script>
@@ -61,8 +63,14 @@
     <script src="/javascripts/party.js"></script>
     <script src="/javascripts/Listeners.js"></script>
     <script src="/javascripts/shp.js"></script>
+    <script src"/javascripts/partyall.js"></script>
   </body>
 </html>
 <script>
-var tracks=<%- tracks=JSON.stringify(tracks) %>
+tracks=<%- tracks=JSON.stringify(tracks) %>
+</script>
+<% if (admin === true) {%>
+<script src="/javascripts/soundmanager2.js"></script>
+<script src="/javascripts/party.js"></script>
+<% } %>
 </script>

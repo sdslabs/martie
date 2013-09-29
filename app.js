@@ -41,11 +41,16 @@ app.post('/party/:party/add', function(req, res){
 });
 
 app.del('/party/:party/:trackId',function(req, res){
-  var trackId = req.params.trackId;
-  var title = req.body.title;
+  var track = req.body.track;
   var party = req.params.party;
-  r.lrem("tracks:"+party, 0, trackId+"|"+title);
-  res.json("Track removed");
+  r.lrem("tracks:"+party, 0, track, function(err, response){
+    if(err)
+      throw err;
+    else{
+      console.log(response);
+      res.json("Track removed");
+    }
+  });
 });
 
 /** This is the most important endpoint */
@@ -59,7 +64,6 @@ app.get('/party/:partyName.json', function(req, res){
         name: response
       });
     });
-    
   });
 })
 app.use(express.static(path.join(__dirname,'./public')));
@@ -106,16 +110,25 @@ app.post('/youtube/length', function(req, res){
   });
 });
 
+app.post('/room', function(req, res){
+  var roomName = req.body,name;
+  var value = req.body.value;
+  r.set("rooms:"+roomName, value);
+  res.json("saved");
+});
+
+app.get("/room/:name", function(req, res){
+  r.get("rooms:"+req.params.name, function(response){
+    res.json(response);
+  })
+})
+
 app.get('/search', function(req, res){
   var q = req.query.query;
-  yt.search(q, function(YTresponse){
-    gaana.search(q, function(Gresponse){
-      res.json({
-        gaana: Gresponse,
-        youtube: YTresponse
-      });
-    });
-  })
+  var r=require('request');
+  r.get("http://localhost/muzi/ajax/search/?search="+q, function(err,response, body){
+    res.send(body);
+  });
 });
 
 http.createServer(app).listen(app.get('port'), function(){
