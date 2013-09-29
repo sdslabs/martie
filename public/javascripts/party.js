@@ -100,7 +100,7 @@ var getRoom = function()
 }
 
 
-var joinedRoom = function(data)
+var joinedRoom = function()
 {
     WarpClient.getLiveRoomInfo(roomID);
     this.gotRoomInfo = function(data)
@@ -176,10 +176,20 @@ var updateData = function(songsList)
             var title = songsList[key][j]["title"];
             var img = "";
     //             console.log(attr, songsList[key][attr]);
+            if($('#partyurl').attr('data-admin') == true)
+                {
+                    console.log(admin);
+                    src = 'plus.png';
+                }
+            else
+                src = 'up.png';
             if(key == "suggestions")
-                img = '<span class="upvote"><img src="/images/up.png" alt></span>';
-            $('#'+key).append('<li class="song" data-id="'+id+'"data-title="'+title+'">'+img+'<span class="name">'+title+'</span><br></li>');
+                img = '<span class="upvote"><img src="/images/'+src+'" alt></span>';
+            if(!($('#'+key+' [data-id="'+id+'"]').length))
+                $('#'+key).append('<li class="song" data-id="'+id+'"data-title="'+title+'">'+img+'<span class="name">'+title+'</span><br></li>');
         }
     }
+
+    setTimeout(joinedRoom, 10000);
 }
 

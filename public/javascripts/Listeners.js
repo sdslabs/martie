@@ -49,6 +49,7 @@ function MyRoomRequestListener() {
 	};
 	this.onJoinRoomDone = function(event){
 		if(event.result == resultcode_success){
+			console.log("Joined room");
 			console.log(event);
 			joinedRoom();
 		}
