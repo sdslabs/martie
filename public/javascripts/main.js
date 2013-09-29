@@ -51,18 +51,30 @@ $(document).ready(function()
       }
     },
 
-    addToQueue: function(el)
+    addToQueue: function(el, party)
     {
-      el.addClass('selected');
-      $('#right-sidebar')
-      var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">\
-        <span class="cancel"><img src="/images/cross.png" alt=""></span>\
-        <span class="name">' + el.data('title') + '</span><br>\
-        <span class="artist">' + el.data('artist') + '</span>\
-      </li>';
+      var admin = $("#partyurl").data('admin');
+      if (party == true)
+      {
+        var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">';
+        if (admin === true) html += '<span class="cancel"><img src="/images/cross.png" alt=""></span>';
+        html += '<span class="name">' + el.data('title') + '</span><br></li>';
+        $('#queue').append(html);
+        el.remove();
+      }
+      else
+      {
+        el.addClass('selected');
+        $('#right-sidebar')
+        var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">\
+          <span class="cancel"><img src="/images/cross.png" alt=""></span>\
+          <span class="name">' + el.data('title') + '</span><br>\
+          <span class="artist">' + el.data('artist') + '</span>\
+        </li>';
 
-      $('#queue').append(html);
-      $('#add-button').removeAttr('disabled')
+        $('#queue').append(html);
+        $('#add-button').removeAttr('disabled')
+      }
     },
 
     removeFromQueue: function(el)
@@ -100,7 +112,7 @@ $(document).ready(function()
       console.log(admin);
       var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">';
       if (admin == true)
-        html += '<span class="cancel"><img src="/images/plus.png" alt=""></span>';
+        html += '<span class="plus"><img src="/images/plus.png" alt=""></span>';
       else
         html += '<span class="upvote"><img src="/images/up.png" alt=""></span>';
       html += '<span class="name">' + el.data('title') + '</span><br></li>';
@@ -131,7 +143,7 @@ $(document).ready(function()
 
     },
 
-    addToQueue: function(el)
+    addToQueue: function(el, party)
     {
       var partyname = $("#partyurl").data('party');
       $.ajax({
@@ -142,7 +154,7 @@ $(document).ready(function()
           title: el.data('title')
         },
         success: function() {
-          martie.views.addToQueue(el);
+          martie.views.addToQueue(el, party);
         }
       })
     },
@@ -235,6 +247,10 @@ $(document).ready(function()
   {
     $('#suggestions').on('click','.upvote', function(){
       martie.hooks.upvoteTrack($(this).parents('.song'));
+    })
+    $('#suggestions').on('click','.plus', function(){
+      console.log('plus clicked');
+      martie.hooks.addToQueue($(this).parents('.song'), true);
     })
   }
 

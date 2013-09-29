@@ -23,7 +23,7 @@
       <% } %>
       <div class="pure-u-1-4 list">
         <h2>QUEUE</h2>
-        <ul>
+        <ul id="queue">
           <% tracks.forEach(function(track){ %>
           <li class="song" data-id="<%= track.split('|')[0] %>" data-title="<%= track.split('|')[1] %>">
             <% if (admin === true) { %><span class="cancel"><img src="/images/cross.png" alt=""></span><% } %>
@@ -37,7 +37,7 @@
         <ul id="suggestions">
           <% tracks.forEach(function(track){ %>
           <li class="song" data-id="<%= track.split('|')[0] %>" data-title="<%= track.split('|')[1] %>">
-            <% if (admin === true) { %><span class="cancel"><img src="/images/plus.png" alt=""></span><% } %>
+            <% if (admin === true) { %><span class="plus"><img src="/images/plus.png" alt=""></span><% } %>
             <% if (admin === false) { %><span class="upvote"><img src="/images/up.png" alt=""></span><% } %>
             <span class="name"><%= track.split('|')[1] %></span><br>
           </li>
