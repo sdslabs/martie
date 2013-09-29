@@ -79,8 +79,9 @@ input
     padding-top 40px
     font-size 25px
   .header-text
-    margin-left 270px
+    margin-left 300px
     font-weight 100
+    text-shadow 2px 2px black
     padding-top 10px
   #search-div
     height 50px
@@ -202,21 +203,35 @@ input
 
 .party.content
   text-align center
+  #player
+    margin-top 20px
+  #footer
+    text-align left
+  #navbar
+    text-align left
 
 .content .pure-u-1-4.list
+  text-align left
   width 27%
   padding 10px 20px
   margin-right 1px solid #ABABAB
   background white
   input
-    border 1px solid black
+    border 1px solid #555
     outline 0
-    height 20px
+    height 25px
+    width 200px
+    font-size 12px
+    padding-left 5px
+    margin-bottom 10px
   h2
     font-size 15px
     font-weight 100
     padding-bottom 20px
     border-bottom 1px solid #ABABAB
+  ul#search-list
+    li
+      cursor pointer
   ul
     margin 0
     padding 0
@@ -226,3 +241,33 @@ input
       font-size 12px
       font-weight bold
       color #555
+      .upvote
+        float right
+      img
+        height 15px
+        vertical-align bottom
+        margin-right 10px
+        cursor pointer
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (max-device-width : 1024px)
+  body
+    .content
+      width 100%
+      height 100%
+
+/* Smartphones (portrait) ----------- */
+@media only screen and (max-device-width : 640px)
+  #navbar
+    display none
+  #player
+    display none
+  #qr
+    display none
+  .list.pure-u-1-4
+    width 100px
+    font-size 8px
+    input
+      width 100px
+    h2
+      font-size 8px

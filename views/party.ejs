@@ -14,45 +14,35 @@
       <div id="navbar" class="pure-u-1 pure-menu pure-menu-open pure-menu-horizontal">
         <ul>
           <li id="topbar-logo-div"><a href="/"><img id="logo-image" src="/images/logo.png" alt="">Martie</a></li>
-          <li id="topbar-url"><a id="partyurl" data-party="<%= urlname %>" href="/party/<%=urlname%>">martie.sdslabs.co.in/<%= urlname %></a></li>
+          <li id="topbar-url"><a id="partyurl" data-admin="<%=admin%>" data-party="<%= urlname %>" href="/party/<%=urlname%>">martie.sdslabs.co.in/party/<%= urlname %></a></li>
         </ul>
       </div>
+      <div id="qr">
+        <img src="https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=http://martie.sdslabs.co.in/party/<%=urlname%>" alt="">
+      </div>
+      <% if (admin === true) {%>
+      <script src="http://www.youtube.com/player_api"> </script>
       <div id="player"></div>
+      <% } %>
       <div class="pure-u-1-4 list">
         <h2>QUEUE</h2>
-        <ul id="queue" class="admin">
+        <ul id="queue">
           <% tracks.forEach(function(track){ %>
-          <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
-            <!-- <span class="cancel"><img src="/images/cross.png" alt=""></span> -->
+          <li class="song" data-id="<%= track.split('|')[0] %>" data-title="<%= track.split('|')[1] %>">
+            <% if (admin === true) { %><span class="cancel"><img src="/images/cross.png" alt=""></span><% } %>
             <span class="name"><%= track.split('|')[1] %></span><br>
-            <span class="artist"></span>
-          </li>            
+          </li>
           <% }) %>
         </ul>
       </div>
       <div class="pure-u-1-4 list">
         <h2>SUGGESTIONS</h2>
-        <ul id="queue" class="admin">
-          <% tracks.forEach(function(track){ %>
-          <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
-            <!-- <span class="cancel"><img src="/images/cross.png" alt=""></span> -->
-            <span class="name"><%= track.split('|')[1] %></span><br>
-            <span class="artist"></span>
-          </li>            
-          <% }) %>
-        </ul>
+        <ul id="suggestions"></ul>
       </div>
       <div class="pure-u-1-4 list">
         <h2>SEARCH</h2>
-        <input type="text" class="pure-input-1">
-        <ul id="queue" class="admin">
-          <% tracks.forEach(function(track){ %>
-          <li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">
-            <!-- <span class="cancel"><img src="/images/cross.png" alt=""></span> -->
-            <span class="name"><%= track.split('|')[1] %></span><br>
-            <span class="artist"></span>
-          </li>            
-          <% }) %>
+        <form><input type="text" class="pure-input-1" placeholder="Search" id="party-search"></form>
+        <ul id="search-list">
         </ul>
       </div>
       <div id="footer">
