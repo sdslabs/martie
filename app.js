@@ -43,11 +43,13 @@ app.post('/party/:party/add', function(req, res){
 app.del('/party/:party/:trackId',function(req, res){
   var track = req.body.track;
   var party = req.params.party;
-  r.lrem("tracks:"+party, 0, track, function(err, res){
+  r.lrem("tracks:"+party, 0, track, function(err, response){
     if(err)
       throw err;
-    else
+    else{
+      console.log(response);
       res.json("Track removed");
+    }
   });
 });
 

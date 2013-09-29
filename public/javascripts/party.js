@@ -1,13 +1,13 @@
-window.currentTrackId =0 ;
 $(document).ready(function(){
   $.extend(soundManager.defaultOptions,{
     /** What to do when the song ends */
     onfinish:function(){
-      currentTrackId=1+currentTrackId;
-      window.play(currentTrackId);
+      alert("onfinish called");
       var partyName = $('#partyurl').data("party");
       $.getJSON("/party/"+partyName+".json", function(data){
         tracks = data.tracks;
+        martie.views.renderQueue(tracks);
+        window.play(0);
       })
     }
   });
