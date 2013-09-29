@@ -5,6 +5,10 @@ $(document).ready(function(){
     onfinish:function(){
       currentTrackId=1+currentTrackId;
       window.play(currentTrackId);
+      var partyName = $('#partyurl').data("party");
+      $.getJSON("/party/"+partyName+".json", function(data){
+        console.log(data);
+      })
     }
   });
   soundManager.setup({ url: '/swf/', flashVersion: 9 ,
@@ -23,6 +27,11 @@ onready: function(){
        autoPlay: false,
       });
       window.currentTrack.play();
+      //soon after playing remove it from the backend
+      var partyName = $('#partyurl').data("party");
+      $.ajax("/party/"+partyName+"/"+id, {type:"delete", data:{
+        track: tracks[i]
+      }});
     });
   }
 

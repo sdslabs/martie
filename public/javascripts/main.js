@@ -32,7 +32,7 @@ $(document).ready(function()
       else
       {
         var html = '';
-        for (var i=0; i<15; i++)
+        for (i in data.tracks)
         {
           html += '<li class="song" data-id="' + data.tracks[i].id + '" data-title="' + data.tracks[i].title + '">\
               <span class="name">' + data.tracks[i].title + '</span><br>\

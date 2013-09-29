@@ -41,10 +41,9 @@ app.post('/party/:party/add', function(req, res){
 });
 
 app.del('/party/:party/:trackId',function(req, res){
-  var trackId = req.params.trackId;
-  var title = req.body.title;
+  var track = req.body.track;
   var party = req.params.party;
-  r.lrem("tracks:"+party, 0, trackId+"|"+title);
+  r.lrem("tracks:"+party, 0, track);
   res.json("Track removed");
 });
 
