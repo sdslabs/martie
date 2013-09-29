@@ -50,7 +50,6 @@ $(document).ready(function()
       if (party == true)
       {
         var html = '<li class="song" data-id="' + el.data('id') + '" data-title="' + el.data('title') + '">';
-        if (admin === true) html += '<span class="cancel"><img src="/images/cross.png" alt=""></span>';
         html += '<span class="name">' + el.data('title') + '</span><br></li>';
         $('#queue').append(html);
         el.remove();
@@ -114,6 +113,19 @@ $(document).ready(function()
         html += '<span class="upvote"><img src="/images/up.png" alt=""></span>';
       html += '<span class="name">' + el.data('title') + '</span><br></li>';
       $('#suggestions').append(html);
+    },
+
+    renderQueue: function(tracks)
+    {
+      var html = '';
+      for (i in tracks)
+      {
+        html += '<li class="song" data-id="' + tracks[i].split('|')[0] + '" data-title="' + tracks[i].split('|')[1] + '">\
+          <span class="name">' + tracks[i].split('|')[1] + '</span><br>\
+        </li>';
+      }
+      $('#queue').html(html);
+      alert(html);
     }
 
   };
@@ -205,6 +217,18 @@ $(document).ready(function()
       //   success: function() {
       //   }
       // })
+    },
+
+    renderQueue: function()
+    {
+      var partyname = $("#partyurl").data('party');
+      $.ajax({
+        type: 'GET',
+        url: '/party/' + partyname + '/.json',
+        success: function(data) {
+          martie.views.renderQueue(data);
+        }
+      })
     }
 
   }
