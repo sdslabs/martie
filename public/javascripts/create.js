@@ -5,7 +5,7 @@ var main = function()
 	WarpClient.createRoom(partyname, username, maxUsers, null);
 }
 
-var addSong = function(trackid)
+var addSong = function(trackid, title)
 {
 	WarpClient.getLiveRoomInfo(roomID);
 	this.gotRoomInfo = function(data)
@@ -20,7 +20,7 @@ var addSong = function(trackid)
 					data["queue"][trackid]++;
 				else
 				{
-					var obj = {}; obj[trackid] = 1;
+					var obj = {}; obj[trackid] = 1, obj["title"] = title;
 					data["queue"].push(obj);
 				}
 				WarpClient.setCustomRoomData(roomID, data);
@@ -28,7 +28,7 @@ var addSong = function(trackid)
 			else
 			{
 				data["queue"] = [];
-				var obj = {}; obj[trackid]=1;
+				var obj = {}; obj[trackid]=1, obj["title"] = title;
 				data["queue"].push(obj);
 				data = JSON.stringify(data);
 				WarpClient.setCustomRoomData(roomID, data);
@@ -38,7 +38,7 @@ var addSong = function(trackid)
 		{
 			data = {};
 			data["queue"] = [];
-			var obj = {}; obj[trackid]=1;
+			var obj = {}; obj[trackid]=1, obj["title"] = title;
 			data["queue"].push(obj);
 			data = JSON.stringify(data);
 			WarpClient.setCustomRoomData(roomID, data);

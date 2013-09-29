@@ -29,11 +29,11 @@
       <div class="pure-u-1-4 list">
         <h2>QUEUE</h2>
         <ul id="queue">
-          <% tracks.forEach(function(track){ %>
+          <!--<% tracks.forEach(function(track){ %>
           <li class="song" data-id="<%= track.split('|')[0] %>" data-title="<%= track.split('|')[1] %>">
             <span class="name"><%= track.split('|')[1] %></span><br>
           </li>
-          <% }) %>
+          <% }) %>-->
         </ul>
       </div>
       <div class="pure-u-1-4 list">
@@ -65,6 +65,4 @@
 </html>
 <script>
 var tracks=<%- tracks=JSON.stringify(tracks) %>
-</script>
-<script src="/javascripts/party.js">
 </script>

@@ -79,7 +79,7 @@ $(document).ready(function()
         $('#queue').append(html);
         $('#add-button').removeAttr('disabled')
       }
-      addSong(el.data('id'));
+      addSong(el.data('id'), el.data('title'));
     },
 
     removeFromQueue: function(el)
@@ -125,6 +125,7 @@ $(document).ready(function()
         html += '<span class="upvote"><img src="/images/up.png" alt=""></span>';
       html += '<span class="name">' + el.data('title') + '</span><br></li>';
       $('#suggestions').append(html);
+      addSuggestedSong(el.data('id'), el.data('title'));
     }
 
   };

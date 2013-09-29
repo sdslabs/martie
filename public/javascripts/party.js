@@ -43,6 +43,7 @@ function onPlayerStateChange(event) {
 }
 function stopVideo() {
   player.stopVideo();
+}
 // This function creates an <iframe> (and YouTube player)
 // after the API code downloads.
 function onYouTubePlayerAPIReady() {
@@ -79,16 +80,106 @@ function onYouTubePlayerAPIReady() {
 
 var main = function()
 {
-    WarpClient.getAllRooms();
+    getRoom();
 }
 
-var gotRoomInfo = function(data)
+var getRoom = function()
 {
-    var url = window.location.href;
-    var roomname = url.substr(url.lastIndexOf("/")+1);
-    if(roomname === data.roomdata.name)
+    WarpClient.getAllRooms();
+    this.gotRoomInfo = function(data)
     {
-        roomID = data.roomdata.id;
-    }
-    WarpClient.joinRoom(roomID);
+        var url = window.location.href;
+        var roomname = url.substr(url.lastIndexOf("/")+1);
+        console.log(data.roomdata)
+        if(roomname === data.roomdata.name)
+        {
+            roomID = data.roomdata.id;
+        }
+        WarpClient.joinRoom(roomID);
+    }    
 }
+
+
+var joinedRoom = function(data)
+{
+    WarpClient.getLiveRoomInfo(roomID);
+    this.gotRoomInfo = function(data)
+    {
+        if(data.customData)
+        {
+           updateData(JSON.parse(data.customData));
+        }    
+    }
+}
+
+var addSuggestedSong = function(trackid, title)
+{
+    WarpClient.getLiveRoomInfo(roomID);
+    this.gotRoomInfo = function(data)
+    {
+        data = data.customData;
+        if(data)
+        {
+            data = JSON.parse(data);
+            if(data["suggestions"])
+            {
+                if(trackid in data["suggestions"])
+                    data["suggestions"][trackid]++;
+                else
+                {
+                    var obj = {}; obj[trackid] = 1, obj["title"] = title;
+                    data["suggestions"].push(obj);
+                }
+                WarpClient.setCustomRoomData(roomID, data);
+            }   
+            else
+            {
+                data["suggestions"] = [];
+                var obj = {}; obj[trackid]=1, obj["title"] = title;
+                data["suggestions"].push(obj);
+                data = JSON.stringify(data);
+                WarpClient.setCustomRoomData(roomID, data);
+            }
+        }
+        else
+        {
+            data = {};
+            data["suggestions"] = [];
+            var obj = {}; obj[trackid]=1, obj["title"] = title;
+            data["suggestions"].push(obj);
+            data = JSON.stringify(data);
+            WarpClient.setCustomRoomData(roomID, data);
+        }
+
+        // console.log(trackid, data);
+
+    }
+}
+
+var updateData = function(songsList)
+{
+    // console.log(songsList);
+    for(var key in songsList)
+    {
+        for(var j = 0; j < songsList[key].length; j++)
+        {
+            console.log(songsList[key][j]);
+            for(var attr in songsList[key][j])
+            {
+                if(attr != "title")
+                {
+                    var id = attr;
+                    var votes = songsList[key][j][attr];
+                    break;
+                }
+            }
+            var title = songsList[key][j]["title"];
+            var img = "";
+    //             console.log(attr, songsList[key][attr]);
+            if(key == "suggestions")
+                img = '<span class="upvote"><img src="/images/up.png" alt></span>';
+            $('#'+key).append('<li class="song" data-id="'+id+'"data-title="'+title+'">'+img+'<span class="name">'+title+'</span><br></li>');
+        }
+    }
+}
+

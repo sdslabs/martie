@@ -30,7 +30,6 @@ function MyZoneRequestListener() {
 	this.onDeleteRoomDone = function(event){
 	};
 	this.onGetAllRoomsDone = function(event){
-		console.log(event);
 		for(var i=0; i<event.roomIdArray.length; i++){
 			WarpClient.getLiveRoomInfo(event.roomIdArray[i]);
 		}
@@ -51,6 +50,7 @@ function MyRoomRequestListener() {
 	this.onJoinRoomDone = function(event){
 		if(event.result == resultcode_success){
 			console.log(event);
+			joinedRoom();
 		}
 		else{
 			console.log('Cannot join room');
@@ -91,7 +91,7 @@ function MyRoomRequestListener() {
 	};
 	this.onSetCustomRoomDataDone = function(event){
 		console.log("Set room data", event);
-		setRoomData(event);
+		// setRoomData(event);
 	};
 	
 }
