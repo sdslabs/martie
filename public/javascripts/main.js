@@ -47,6 +47,8 @@ $(document).ready(function()
               <span class="name">' + data.youtube[i].snippet.title + '</span><br>\
             </li>';
         }
+        if (document.getElementById('loader') !== null)
+          $('#loader').hide();
         $('#search-list').html(html);
       }
     },
@@ -99,6 +101,8 @@ $(document).ready(function()
       };
 
       $container.imagesLoaded(function() {
+        if (document.getElementById('loader') !== null)
+          $('#loader').hide();
         initialize();
       })
     },
@@ -126,9 +130,11 @@ $(document).ready(function()
   martie.hooks = {
 
     renderSearchResults: function(party) {
+      $('#loader').show();
       var input;
       if (party == true)
       {
+        $('#search-list').html('');
         input = $('#party-search').val();
         $.get('/search?query=' + input, function(data) {
           martie.views.renderSearchResults(data, true);
