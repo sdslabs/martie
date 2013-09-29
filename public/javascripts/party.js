@@ -13,7 +13,8 @@ $(document).ready(function(){
   });
   soundManager.setup({ url: '/swf/', flashVersion: 9 ,
 onready: function(){
-  window.play(0);
+  if(tracks.length>0)
+    window.play(0);
 }}
   );
   window.play=function(i){
