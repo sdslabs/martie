@@ -161,7 +161,7 @@ $(document).ready(function()
 
     removeFromQueue: function(el)
     {
-      martie.views.removeFromQueue(el);
+      // martie.views.removeFromQueue(el);
       var partyname = $("#partyurl").data('party');
       $.ajax({
         type: 'DELETE',
