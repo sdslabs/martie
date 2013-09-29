@@ -75,6 +75,7 @@ $(document).ready(function()
         $('#queue').append(html);
         $('#add-button').removeAttr('disabled')
       }
+      addSong(el.data('id'));
     },
 
     removeFromQueue: function(el)
