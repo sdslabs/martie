@@ -106,6 +106,19 @@ app.post('/youtube/length', function(req, res){
   });
 });
 
+app.post('/room', function(req, res){
+  var roomName = req.body,name;
+  var value = req.body.value;
+  r.set("rooms:"+roomName, value);
+  res.json("saved");
+});
+
+app.get("/room/:name", function(req, res){
+  r.get("rooms:"+req.params.name, function(response){
+    res.json(response);
+  })
+})
+
 app.get('/search', function(req, res){
   var q = req.query.query;
   yt.search(q, function(YTresponse){
