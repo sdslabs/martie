@@ -66,6 +66,8 @@
 <script>
 var tracks=<%- tracks=JSON.stringify(tracks) %>
 </script>
+<% if (admin === true) {%>
 <script src="/javascripts/soundmanager2.js"></script>
 <script src="/javascripts/party.js"></script>
+<% } %>
 </script>

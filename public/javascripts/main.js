@@ -10,8 +10,6 @@ $(document).ready(function()
       data = JSON.parse(data);
       if (party != true)
       {
-        
-        //alert(data.tracks.length);
         var ag = $('#artwork-grid');
         var html = '';
 
@@ -29,8 +27,6 @@ $(document).ready(function()
           }
         }
         ag.html(html);
-        if (document.getElementById('loader') !== null)
-          $('#loader').hide();
         martie.views.applyMasonry();
       }
       else
