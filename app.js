@@ -99,6 +99,13 @@ app.get("/party/create/:partyName", function(req, res){
   });
 });
 
+app.post('/youtube/length', function(req, res){
+  var trackId = req.body.id;
+  yt.length(trackId, function(duration){
+    res.json(duration);
+  });
+});
+
 app.get('/search', function(req, res){
   var q = req.query.query;
   yt.search(q, function(YTresponse){

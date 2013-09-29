@@ -7,5 +7,12 @@ module.exports = {
       body = JSON.parse(body);
       cb(body.items);
     })
+  },
+  length: function(id, cb){
+  	var url = "https://gdata.youtube.com/feeds/api/videos/"+id+"?v=2&alt=jsonc";
+  	r.get(url, function(err, res, body){
+  		var response = JSON.parse(body);
+  		cb(response.data.duration);
+  	});
   }
 }
